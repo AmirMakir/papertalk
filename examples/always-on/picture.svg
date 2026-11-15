@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1920 1080">
+
+  <!-- guide paths for moving events (invisible) -->
+  <path id="ev0" d="M700 470 H850" stroke="none" fill="none"/>
+  <path id="pick" d="M500 470 H850" stroke="none" fill="none"/>
+
+  <!-- hook: the timeline of sleep and short runs -->
+  <g id="timeline">
+    <line x1="360" y1="800" x2="1560" y2="800" stroke="$faint" stroke-width="10" stroke-linecap="round"/>
+    <rect x="640" y="780" width="70" height="40" rx="10" fill="$pen" stroke="$pen" stroke-width="4"/>
+    <rect x="1000" y="780" width="70" height="40" rx="10" fill="$pen" stroke="$pen" stroke-width="4"/>
+    <rect x="1360" y="780" width="70" height="40" rx="10" fill="$pen" stroke="$pen" stroke-width="4"/>
+    <text x="500" y="764" text-anchor="middle" font-family="$serif" font-style="italic" font-size="40" fill="$muted">z z z</text>
+    <text x="855" y="764" text-anchor="middle" font-family="$serif" font-style="italic" font-size="40" fill="$muted">z z z</text>
+    <text x="1215" y="764" text-anchor="middle" font-family="$serif" font-style="italic" font-size="40" fill="$muted">z z z</text>
+    <text x="500" y="862" text-anchor="middle" font-family="$sans" font-weight="600" font-size="30" fill="$muted">asleep</text>
+    <text x="675" y="862" text-anchor="middle" font-family="$sans" font-weight="700" font-size="30" fill="$pen">run</text>
+  </g>
+
+  <!-- the agent, asleep by default; "awake" covers it when it works -->
+  <g id="agent">
+    <circle cx="960" cy="470" r="100" fill="$card" stroke="$ink" stroke-width="6"/>
+    <use href="#i-bot-sleep" x="905" y="415" width="110" height="110" color="$muted"/>
+    <text x="960" y="350" text-anchor="middle" font-family="$sans" font-weight="700" font-size="34" fill="$ink">agent</text>
+  </g>
+  <g id="awake">
+    <circle cx="960" cy="470" r="97" fill="$card" stroke="$pen" stroke-width="8"/>
+    <use href="#i-bot" x="905" y="415" width="110" height="110" color="$pen"/>
+  </g>
+  <g id="saved">
+    <use href="#i-file" x="1050" y="520" width="64" height="64" color="$pen"/>
+    <text x="1120" y="560" font-family="$sans" font-weight="600" font-size="26" fill="$pen">saved</text>
+  </g>
+
+  <!-- the five labels, placed early so the map builds up -->
+  <text id="lbl-inbox" x="430" y="580" text-anchor="middle" font-family="$sans" font-weight="700" font-size="34" fill="$ink">inbox</text>
+  <text id="lbl-timers" x="760" y="232" font-family="$sans" font-weight="700" font-size="34" fill="$ink">timers</text>
+  <text id="lbl-memory" x="1030" y="742" font-family="$sans" font-weight="700" font-size="34" fill="$ink">memory</text>
+  <text id="lbl-perm" x="1300" y="240" font-family="$sans" font-weight="700" font-size="34" fill="$ink">permissions</text>
+  <text id="lbl-outbox" x="1440" y="580" text-anchor="middle" font-family="$sans" font-weight="700" font-size="34" fill="$ink">outbox</text>
+
+  <!-- inbox -->
+  <g id="inbox">
+    <rect x="368" y="405" width="124" height="130" rx="22" fill="$card" stroke="none"/>
+    <use href="#i-db" x="370" y="410" width="120" height="120" color="$ink"/>
+  </g>
+  <g id="src-msg"><use href="#i-chat" x="85" y="290" width="76" height="76" color="$ink"/><text x="123" y="398" text-anchor="middle" font-family="$sans" font-weight="600" font-size="24" fill="$muted">message</text></g>
+  <g id="src-hook"><use href="#i-bolt" x="85" y="430" width="76" height="76" color="$ink"/><text x="123" y="538" text-anchor="middle" font-family="$sans" font-weight="600" font-size="24" fill="$muted">webhook</text></g>
+  <g id="src-sched"><use href="#i-clock" x="85" y="570" width="76" height="76" color="$ink"/><text x="123" y="678" text-anchor="middle" font-family="$sans" font-weight="600" font-size="24" fill="$muted">schedule</text></g>
+  <g id="direct">
+    <path d="M170 450 C 380 250 720 250 880 400" fill="none" stroke="$red" stroke-width="5" stroke-dasharray="14 12" marker-end="url(#i-arrow-red)"/>
+    <use href="#i-x" x="500" y="270" width="56" height="56" color="$red"/>
+  </g>
+  <g id="src-arrows">
+    <path id="s1" d="M170 330 C 270 330 290 455 362 465" fill="none" stroke="$ink" stroke-width="5" marker-end="url(#i-arrow)"/>
+    <path id="s2" d="M170 470 H362" fill="none" stroke="$ink" stroke-width="5" marker-end="url(#i-arrow)"/>
+    <path id="s3" d="M170 610 C 270 610 290 485 362 475" fill="none" stroke="$ink" stroke-width="5" marker-end="url(#i-arrow)"/>
+  </g>
+  <g id="worker">
+    <path d="M500 470 H650 M730 470 H852" fill="none" stroke="$ink" stroke-width="5" marker-end="url(#i-arrow)"/>
+    <use href="#i-cog" x="655" y="435" width="70" height="70" color="$ink"/>
+    <text x="690" y="545" text-anchor="middle" font-family="$sans" font-weight="600" font-size="26" fill="$muted">worker</text>
+  </g>
+  <g id="inbox-notes">
+    <text x="430" y="640" text-anchor="middle" font-family="$sans" font-weight="600" font-size="28" fill="$pen">no competing runs</text>
+    <text x="430" y="684" text-anchor="middle" font-family="$sans" font-weight="600" font-size="28" fill="$pen">nothing lost in a crash</text>
+  </g>
+
+  <!-- timers -->
+  <g id="timers">
+    <use href="#i-clock" x="660" y="168" width="90" height="90" color="$ink"/>
+  </g>
+  <g id="t-follow"><rect x="400" y="160" width="200" height="50" rx="14" fill="$card" stroke="$ink" stroke-width="3"/><text x="500" y="195" text-anchor="middle" font-family="$sans" font-weight="600" font-size="26" fill="$ink">follow-up</text></g>
+  <g id="t-sched"><rect x="360" y="226" width="240" height="50" rx="14" fill="$card" stroke="$ink" stroke-width="3"/><text x="480" y="261" text-anchor="middle" font-family="$sans" font-weight="600" font-size="26" fill="$ink">schedule · daily</text></g>
+  <g id="set-timer"><path id="a2t" d="M893 398 C 860 330 810 280 756 248" fill="none" stroke="$ink" stroke-width="5" marker-end="url(#i-arrow)"/></g>
+  <g id="t-direct">
+    <path d="M700 268 L 872 418" fill="none" stroke="$red" stroke-width="5" stroke-dasharray="14 12" marker-end="url(#i-arrow-red)"/>
+    <use href="#i-x" x="752" y="318" width="50" height="50" color="$red"/>
+  </g>
+  <g id="t2i-g"><path id="t2i" d="M690 266 C 690 340 455 330 440 398" fill="none" stroke="$ink" stroke-width="5" marker-end="url(#i-arrow)"/></g>
+
+  <!-- memory -->
+  <g id="memory">
+    <path id="a2m" d="M960 574 V664" fill="none" stroke="$ink" stroke-width="5" marker-start="url(#i-arrow)" marker-end="url(#i-arrow)"/>
+    <use href="#i-folder" x="912" y="676" width="96" height="96" color="$ink"/>
+  </g>
+  <g id="m-instr"><rect x="700" y="806" width="190" height="50" rx="14" fill="$card" stroke="$ink" stroke-width="3"/><text x="795" y="840" text-anchor="middle" font-family="$mono" font-size="25" fill="$ink">instructions</text></g>
+  <g id="m-notes"><rect x="905" y="806" width="110" height="50" rx="14" fill="$card" stroke="$ink" stroke-width="3"/><text x="960" y="840" text-anchor="middle" font-family="$mono" font-size="25" fill="$ink">notes</text></g>
+  <g id="m-prog"><rect x="1030" y="806" width="160" height="50" rx="14" fill="$card" stroke="$ink" stroke-width="3"/><text x="1110" y="840" text-anchor="middle" font-family="$mono" font-size="25" fill="$ink">progress</text></g>
+  <g id="m-pointer"><rect x="480" y="760" width="200" height="50" rx="14" fill="$card" stroke="$pen" stroke-width="3" stroke-dasharray="8 6"/><text x="580" y="794" text-anchor="middle" font-family="$mono" font-size="25" fill="$pen">→ pointer</text><text x="580" y="840" text-anchor="middle" font-family="$sans" font-weight="600" font-size="22" fill="$muted">not a copy</text></g>
+
+  <!-- permissions -->
+  <g id="perm">
+    <use href="#i-shield" x="1195" y="182" width="96" height="96" color="$ink"/>
+  </g>
+  <g id="p-key"><use href="#i-key" x="1046" y="520" width="64" height="64" color="$ink"/><text x="1078" y="610" text-anchor="middle" font-family="$sans" font-weight="600" font-size="22" fill="$muted">access</text></g>
+  <g id="p-eye"><use href="#i-eye" x="810" y="520" width="64" height="64" color="$muted"/><path d="M812 584 L872 522" stroke="$red" stroke-width="6" stroke-linecap="round"/></g>
+  <g id="p-go"><use href="#i-check" x="1090" y="290" width="56" height="56" color="$val"/><text x="1118" y="372" text-anchor="middle" font-family="$sans" font-weight="600" font-size="24" fill="$ink">go</text></g>
+  <g id="p-block"><use href="#i-x" x="1195" y="290" width="56" height="56" color="$red"/><text x="1223" y="372" text-anchor="middle" font-family="$sans" font-weight="600" font-size="24" fill="$ink">block</text></g>
+  <g id="p-ask"><use href="#i-ask" x="1300" y="290" width="56" height="56" color="$pen"/><text x="1328" y="372" text-anchor="middle" font-family="$sans" font-weight="600" font-size="24" fill="$ink">ask</text></g>
+
+  <!-- the user, and the way back -->
+  <g id="user">
+    <use href="#i-user" x="1690" y="412" width="110" height="110" color="$ink"/>
+    <text x="1745" y="580" text-anchor="middle" font-family="$sans" font-weight="700" font-size="34" fill="$ink">user</text>
+  </g>
+  <g id="a2u-g"><path id="a2u" d="M1066 470 H1680" fill="none" stroke="$ink" stroke-width="5" marker-end="url(#i-arrow)"/></g>
+  <g id="u2i-g"><path id="u2i" d="M1745 600 V890 Q1745 905 1730 905 H445 Q430 905 430 890 V612" fill="none" stroke="$ink" stroke-width="5" stroke-dasharray="14 10" marker-end="url(#i-arrow)"/></g>
+
+  <!-- outbox -->
+  <g id="outbox">
+    <rect x="1378" y="405" width="124" height="130" rx="22" fill="$card" stroke="none"/>
+    <use href="#i-db" x="1380" y="410" width="120" height="120" color="$ink"/>
+  </g>
+  <g id="o-msg"><use href="#i-send" x="1372" y="616" width="40" height="40" color="$ink"/><text x="1422" y="646" font-family="$sans" font-weight="600" font-size="26" fill="$ink">a message</text></g>
+  <g id="o-none"><text x="1395" y="700" text-anchor="middle" font-family="$sans" font-weight="700" font-size="30" fill="$muted">–</text><text x="1422" y="700" font-family="$sans" font-weight="600" font-size="26" fill="$ink">nothing to say</text></g>
+  <g id="o-ask"><use href="#i-ask" x="1372" y="724" width="40" height="40" color="$pen"/><text x="1422" y="754" font-family="$sans" font-weight="600" font-size="26" fill="$ink">a question</text></g>
+  <g id="o-quiet"><text x="1440" y="820" text-anchor="middle" font-family="$serif" font-style="italic" font-size="38" fill="$pen">start quiet</text></g>
+</svg>

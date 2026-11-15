@@ -1,0 +1,37 @@
+{
+  "name": "papertalk",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Paper, blog post or X post in \u2192 a short explainer video where the picture shows what the voice says.",
+  "type": "module",
+  "scripts": {
+    "doctor": "node scripts/doctor.mjs",
+    "ingest": "node scripts/ingest.mjs",
+    "voice": "node scripts/voice.mjs",
+    "make": "node scripts/make.mjs",
+    "sfx": "node scripts/sfx.mjs",
+    "mcp": "node mcp/server.mjs",
+    "studio": "remotion studio src/index.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@mozilla/readability": "0.6.0",
+    "@remotion/cli": "4.0.535",
+    "@remotion/google-fonts": "4.0.535",
+    "kokoro-js": "1.2.1",
+    "linkedom": "0.18.14",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "remotion": "4.0.535",
+    "turndown": "7.2.4"
+  },
+  "devDependencies": {
+    "@types/react": "19.3.0",
+    "typescript": "6.0.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AmirMakir/papertalk"
+  },
+  "license": "MIT"
+}

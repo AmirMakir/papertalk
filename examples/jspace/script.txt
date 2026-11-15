@@ -1,0 +1,30 @@
+# A The silent step
+"The number of legs on the animal that spins webs is..."
+Eight. To get there, you thought "spider". But nobody said "spider".
+A language model has to take the same silent step. This paper, from Anthropic, finds where that step happens.
+# B The tower and the lens
+Picture the model as a tower. The question goes in at the bottom. The answer comes out at the top.
+Each layer reworks what it got and passes it up.
+To look inside, the authors built a lens. For any spot in the tower, it shows which words that spot pushes the model to say.
+Point it at the last word, "is", and move it up.
+Near the bottom: nothing readable.
+In the middle: "spider". A word that is in neither the question nor the answer.
+At the top: just the answer, eight.
+That middle stretch is the workspace. It holds a small set of ideas at a time, the ones the model can put into words. In the paper, it's the J-space.
+# C The tests
+But a word showing up doesn't prove the model uses it. So they operate.
+Pull "spider" out of the middle, put "ant" in its place, and the answer at the top changes from eight to six. Ants have six legs.
+Same tower, new question: think of a sport. The lens finds "soccer". Swap in "rugby", and the model says it thought of rugby.
+Switch the workspace off, and simple tasks, like recalling facts, barely change. But multi-step reasoning drops to almost nothing.
+# D Safety tests
+The same lens works in safety tests. It shows the model weighing "leverage" and "manipulation", and reacting with "panic".
+Sometimes it shows "fake" and "fictional": the model suspects it's being tested. Switch that suspicion off, and bad intentions it was hiding can come out.
+# E Limits
+One catch: the lens only reads ideas that fit in a single token, roughly one short word.
+And the name "global workspace" comes from a theory of consciousness in neuroscience. So is this consciousness? The authors say it may or may not be.
+# F Map
+When you open the paper, here's your map.
+Methods: how the lens is built.
+"The J-space acts as a Global Workspace": the swaps you just saw.
+Figure {35|thirty-five}: a safety test, read from the inside.
+Verbalizable Representations Form a Global Workspace. Now go read it.

@@ -1,0 +1,36 @@
+# A Hook
+"The dog ignored the ball because it was tired."
+You knew at once that "it" is the dog. You just linked two words, five words apart.
+# B Old way
+In {2017|twenty seventeen}, the standard translation models couldn't do that directly. They read one word at a time and passed a memory along a chain.
+So the further apart two words were, the more steps their link had to survive.
+And each step had to wait for the one before, so a sentence couldn't be processed in parallel.
+# C The bet
+There was already a fix, called attention: a shortcut that let a model look straight at any word, however far. But it was bolted onto the chain.
+So this paper did not invent attention. Its claim is the title: attention is all you need. Remove the chain. Keep only the shortcut.
+# D Mechanism
+Here's how it works. Take the word "it". To find what it refers to, the word sends out a query: a question.
+Every word answers with a key: a label. Compare the question with each label and you get a score: how relevant is this word?
+But raw scores can get huge, and with huge scores the model almost stops learning. So the paper divides them by a fixed number,
+then turns them into shares that add up to {100%|one hundred percent}. That step is called softmax.
+Each word also holds a value: what it actually carries. "It" takes a blend of the values, weighted by those shares: mostly "dog", a little of the rest.
+That's attention. On paper, it's one line.
+Every word does this at once. No waiting. And since the sentence is attending to itself, the paper calls it self-attention.
+# E Two fixes
+But a word relates to the others in more than one way. So the model runs eight of these side by side. The paper calls them heads.
+And there's a catch: with no chain, word order is gone. "Dog ignored ball" and "ball ignored dog" look the same. So each word gets a position signal added.
+Stack six layers of this to read the sentence: the encoder. Six more to write the translation: the decoder. The paper calls the whole model the Transformer.
+# F Payoff
+What did removing the chain buy? Any two words are now one step apart. And the work runs in parallel.
+The smaller model trained in {12|twelve} hours on eight GPUs. The larger one took three and a half days and beat the best English-to-German translation results of its time.
+The price: every word looks at every word, so the cost grows with the square of the sentence length.
+# G Map
+When you open the paper, here's your map.
+Section {1|one}: why the chain had to go.
+Section {3.2|three point two}: the mechanism, as an equation.
+Figure {1|one}: the whole model.
+Table {1|one}: one step apart, at a squared cost.
+Table {2|two}: the results.
+And Figure {4|four}: two heads that appear to work out what "its" refers to. Exactly what you did at the start.
+Attention Is All You Need.
+Now go read it.

@@ -1,0 +1,80 @@
+// «Attention Is All You Need» on the kit: the example storyboard.
+{
+  "paper": { "id": "arXiv:1706.03762", "title": "Attention Is All You Need", "link": "arxiv.org/abs/1706.03762", "byline": "Vaswani et al., 2017" },
+  "row": { "text": "The dog ignored the ball because it was tired.", "line": 1, "show": [["1", "21-0.1"], ["27:exactly", null]] },
+  "nocaps": [["1", "2"]],
+  "tags": [["3-0.1", "§1 Introduction"], ["7:title", "Title"], ["8", "§3.2 Attention"], ["13", "§3.2.1 · Eq. 1"], ["15", "§3.2.2 Multi-Head Attention"], ["16:position-0.2", "§3.5 Positional Encoding"], ["17", "§3.1 · Figure 1"], ["18", "§4 · Table 1"], ["19", "§5.2 · §6.1"], ["20", "§4 · Table 1"], ["21", ""]],
+  "els": [
+    { "t": "mark", "w": "it", "in": "2:it", "out": "16", "outAt": null },
+    { "t": "mark", "w": "it", "in": "27:exactly" },
+    { "t": "underline", "w": "dog", "in": "2:dog+0.25", "out": "16" },
+    { "t": "arcs", "from": "it", "to": ["dog"], "in": "2:dog-0.3", "out": "3:read-0.25", "crossIn": "3:couldn't" },
+    { "t": "label", "text": "5 words apart", "over": ["it", "dog"], "c": "pen", "size": 52, "in": "2:five", "out": "3" },
+    { "t": "label", "text": "2017 · recurrent network (RNN) {pen:+ attention}", "lane": 2, "x": "left", "weight": 500, "in": "3:standard", "out": "7:remove+0.5" },
+    { "t": "label", "text": "each step waits for the one before\n✕ no parallel processing", "lane": 2, "x": "right", "wrap": true, "align": "right", "c": "red", "in": "5:wait", "out": "6" },
+    { "t": "arcs", "from": "it", "to": ["dog"], "in": "6:attention-0.15", "out": "8" },
+    { "t": "label", "text": "attention", "over": ["it", "dog"], "c": "pen", "size": 56, "plate": true, "in": "6:attention+0.05", "out": "7:not" },
+    { "t": "label", "text": "attention {muted:· already existed}", "over": ["it", "dog"], "c": "pen", "size": 56, "plate": true, "in": "7:not", "out": "8" },
+    { "t": "arcs", "from": "it", "to": "all", "in": "6:any-0.1", "out": "8" },
+    { "t": "title", "text": "Attention Is All You Need", "hl": "All You Need", "ins": ["7:attention#2", "7:is#2", "7:all", "7:you", "7:need"], "out": "8", "pulseIn": "28" },
+    { "t": "arcs", "pairs": "all", "in": "7:keep", "out": "8" },
+
+    { "t": "chips", "items": [
+      { "term": "{pen:query}", "gloss": "a question", "in": "8:query", "gin": "8:question" },
+      { "term": "{key:key}", "gloss": "a label", "in": "9:key", "gin": "9:label" },
+      { "term": "score", "gloss": "q · k", "in": "9:score" },
+      { "term": "÷ √d_k", "gloss": "a fixed number: √64 = 8", "in": "10:divides" },
+      { "term": "softmax", "gloss": "shares, sum 100%", "in": "11:softmax", "gin": "11:shares" },
+      { "term": "{val:value}", "gloss": "what a word carries", "in": "12:value" } ], "out": "13-0.15" },
+    { "t": "tokens", "words": ["it"], "text": "q", "c": "pen", "solid": true, "in": "8:query", "out": "14" },
+    { "t": "tokens", "except": ["it"], "text": "k", "c": "key", "in": "9:key", "out": "14" },
+    { "t": "arcs", "from": "it", "to": "all", "low": true, "dots": true, "in": "9:compare", "out": "14", "weights": [0.02, 1, 0.08, 0.02, 0.23, 0.03, 0.08, 0.03, 0.13], "wIn": "11:shares+0.2" },
+    { "t": "values", "lane": 1, "steps": [
+      { "in": "9:score", "v": ["1", "32", "12", "1", "20", "4", "12", "2", "16"] },
+      { "in": "10:divides+0.2", "v": ["0.1", "4.0", "1.5", "0.1", "2.5", "0.5", "1.5", "0.3", "2.0"] },
+      { "in": "11:shares", "v": ["1%", "62%", "5%", "1%", "14%", "2%", "5%", "2%", "8%"] } ],
+      "warn": { "in": "10:huge", "out": "10:divides" }, "emph": [0, 1, 0, 0, 0.2, 0, 0, 0, 0.1], "out": "14" },
+    { "t": "label", "text": "huge scores → the model almost stops learning", "lane": 2, "c": "red", "in": "10:huge#2", "out": "10:divides" },
+    { "t": "label", "text": "all shares together = 100%", "lane": 2, "in": "11:100", "out": "12:value-0.3" },
+    { "t": "tokens", "words": "all", "text": "v", "c": "val", "lane": 2, "in": "12:value", "out": "14" },
+    { "t": "label", "text": "new “it” = mostly {val:dog} (62%), a little of the rest", "lane": 3, "in": "12:blend", "out": "14" },
+    { "t": "label", "text": "illustrative numbers", "mono": true, "size": 30, "weight": 400, "c": "muted", "area": "full", "x": "left", "y": "bottom", "in": "9:score", "out": "14" },
+    { "t": "formula", "parts": [
+      { "tex": "Attention({pen:Q}, {key:K}, {val:V}) =", "in": "13" },
+      { "tex": "softmax\\big(", "in": "13:paper+0.5" },
+      { "tex": "\\frac{{pen:Q}{key:K}^{T}}{\\sqrt{d_k}}", "in": "13:paper" },
+      { "tex": "\\big) {val:V}", "in": "13:paper+0.75" } ], "out": "15-0.1" },
+    { "t": "arcs", "pairs": "all", "in": "14+0.15", "out": "15:eight" },
+    { "t": "label", "text": "self-attention", "lane": 1, "c": "pen", "size": 64, "in": "14:self-attention", "out": "15-0.1" },
+
+    { "t": "arcs", "pairs": "all", "heads": 8, "ins": ["15+0.1", "15:more", "15:eight", "15:eight+0.08", "15:eight+0.16", "15:eight+0.24", "15:eight+0.32", "15:eight+0.4"], "out": "16:dog" },
+    { "t": "chips", "items": [ { "term": "8 heads", "gloss": "multi-head attention", "in": "15:heads" } ], "out": "16-0.1" },
+    { "t": "label", "text": "attention alone ignores word order", "c": "red", "area": "top", "size": 54, "in": "16:order", "out": "16:position-0.4" },
+    { "t": "swap", "a": "dog", "b": "ball", "in": "16:ball#2", "out": "16:so" },
+    { "t": "dim", "keep": ["dog", "ignored", "ball"], "in": "16:dog", "out": "16:so" },
+    { "t": "label", "text": "+ positional encoding {muted:· sine and cosine waves, one per position}", "lane": 1, "c": "pen", "size": 48, "in": "16:signal", "out": "17-0.1" },
+    { "t": "stack", "items": [ { "label": "encoder ×6", "n": 6, "c": "pen", "in": "17:encoder-0.6" }, { "label": "decoder ×6", "n": 6, "c": "key", "in": "17:six#2" } ], "box": { "label": "the Transformer", "in": "17:transformer" }, "dy": -40, "out": "18-0.1" },
+
+    { "t": "arcs", "from": "it", "to": ["dog"], "in": "18:one-0.4", "out": "19-0.1" },
+    { "t": "label", "text": "~5 steps~ → 1 step", "over": ["it", "dog"], "c": "pen", "size": 56, "plate": true, "in": "18:one", "out": "19-0.1" },
+    { "t": "label", "text": "every word at the same time", "lane": 1, "c": "pen", "size": 52, "in": "18:parallel+0.1", "out": "19-0.1" },
+    { "t": "stats", "items": [
+      { "big": "12 hours", "sub": "smaller model · 8 GPUs", "in": "19:12" },
+      { "big": "3.5 days", "sub": "larger model · 8 GPUs", "in": "19:three" },
+      { "big": "28.4 BLEU", "sub": "English → German\n+2 over the previous best", "in": "19:beat", "hlIn": "19:beat+0.4" } ], "out": "20-0.1" },
+    { "t": "arcs", "pairs": "all", "in": "20:every", "out": "21-0.1" },
+    { "t": "grid", "items": [ { "n": 9, "label": "9 words → 81 comparisons", "in": "20:every+0.3" }, { "n": 18, "label": "18 words → 324 comparisons\n{muted:2× the words, 4× the work}\ncost grows as n²", "in": "20:square-0.7", "lin": "20:square" } ], "out": "21-0.1" },
+
+    { "t": "title", "text": "Attention Is All You Need", "hl": "All You Need", "in": "21" },
+    { "t": "cards", "in": "21", "out": "27:exactly-0.2", "items": [
+      { "tag": "§1 Introduction", "note": "why the chain had to go", "in": "22", "nin": "22:why" },
+      { "tag": "§3.2 · Eq. 1", "note": "the mechanism, as an equation", "in": "23", "nin": "23:mechanism", "pic": { "t": "formula", "tex": "softmax\\big(\\frac{{pen:Q}{key:K}^{T}}{\\sqrt{d_k}}\\big) {val:V}", "scale": 0.6 } },
+      { "tag": "Figure 1", "note": "the whole model", "in": "24", "nin": "24:whole", "pic": { "t": "stack", "items": [ { "label": "", "n": 6, "c": "pen" }, { "label": "", "n": 6, "c": "key" } ], "w": 160, "scale": 0.45 } },
+      { "tag": "Table 1", "note": "one step apart, at a squared cost", "in": "25", "nin": "25:one", "pic": { "t": "table", "cols": ["", "path", "cost"], "rows": [["self-attention", "O(1)", "O(n²·d)"], ["recurrent", "O(n)", "O(n·d²)"]], "hl": [0], "scale": 0.62 } },
+      { "tag": "Table 2", "note": "the results", "in": "26", "nin": "26:results", "pic": { "t": "bars", "items": [ { "label": "before", "v": 26.4, "text": "", "c": "faint" }, { "label": "Transformer", "v": 28.4, "text": "28.4" } ], "max": 28.4, "h": 140, "bw": 70, "scale": 0.55 } },
+      { "tag": "Figure 4", "note": "what “its” refers to", "in": "27:figure", "nin": "27:two" } ] },
+    { "t": "arcs", "from": "it", "to": ["dog"], "in": "27:exactly+0.15" },
+    { "t": "underline", "w": "dog", "in": "27:exactly+0.4" },
+    { "t": "end", "in": "29" }
+  ]
+}

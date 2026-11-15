@@ -1,0 +1,27 @@
+# A Asleep
+An always-on agent is not actually always on.
+It sleeps most of the time. Something happens, it wakes up, does a short burst of work, and goes back to sleep.
+That's from a new guide by Anthropic on how to build one. Here's the whole design.
+# B The run
+Each burst is a run. An event arrives, the agent works through it, and saves what it learned. Then it sleeps again.
+Around that loop sit five pieces: an inbox, timers, memory, permissions, and an outbox.
+# C Inbox
+First, the inbox. Webhooks, schedules, and user messages don't call the agent directly.
+They drop events into one list, and a single worker picks them up. So two events can't start competing runs, and a crash can't lose one.
+# D Timers
+Timers make it proactive. A follow-up is a deadline the agent sets for itself. A schedule repeats, like a daily newsletter.
+And a timer never wakes the agent on its own. When it's due, it drops an event into the same inbox.
+# E Memory
+Runs don't remember each other, so memory carries the thread: the user's instructions, notes about them, and progress on each task.
+The rule of thumb: keep only what the agent can't look up again. For the rest, save a pointer.
+# F Permissions
+Permissions carry the most risk. A run holds the user's access, and nobody is watching.
+So for each action, the agent goes ahead, blocks it, or asks. Asking ends the run, and the answer comes back as a new event.
+# G Outbox
+Last, the outbox. The user doesn't watch the work. They get the outcome.
+A run ends with a message, with nothing to say, or with a question. The advice: start quiet, and earn attention over time.
+# H The cycle
+Put together, it's a loop. A timer or a reply drops an event in the inbox. The agent wakes, reads its memory, acts within its permissions, and sends the outcome.
+Each run is brief. The cycle keeps going, and that's what makes it feel always on.
+# I The guide
+"Building always-on agents," by William Hu, on claude.com. The diagrams for each piece are in there.
