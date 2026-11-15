@@ -32,6 +32,11 @@ const tools = {
     inputSchema: { type: "object", properties: {} },
     run: async () => [read(path.join(ROOT, ".claude/skills/papertalk/SKILL.md")), read(path.join(ROOT, "docs/storyboard.md")), read(path.join(ROOT, "docs/svg.md")), ...["paper", "essay", "post"].map((k) => read(path.join(ROOT, `docs/formats/${k}.md`)))].join("\n\n---\n\n"),
   },
+  papertalk_setup: {
+    description: "Remember which voice to use (asked once, on the first run): local = free voice on this machine (Kokoro), eleven = ElevenLabs (the person adds ELEVENLABS_API_KEY to .env themselves), files = their own WAVs. Without arguments, shows the current choice.",
+    inputSchema: { type: "object", properties: { voice: { type: "string", enum: ["local", "eleven", "files"] }, local_voice: { type: "string", description: "am_michael (male) or af_heart (female), or another Kokoro voice" } } },
+    run: async ({ voice, local_voice }) => (await run("setup.mjs", voice ? ["--voice", voice, ...(local_voice ? [local_voice] : [])] : [])).out,
+  },
   papertalk_ingest: {
     description: "Fetch a source (paper, blog post, essay, X post, or a local .md/.html/.pdf file) into videos/<slug>/source.md and print its outline.",
     inputSchema: { type: "object", properties: { slug: SLUG, source: { type: "string", description: "URL or absolute file path" }, kind: { type: "string", enum: ["paper", "essay", "post"] } }, required: ["slug", "source"] },

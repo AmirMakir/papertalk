@@ -12,6 +12,12 @@ The viewer should finish the video able to say the source's main idea in one sen
 When the person runs `/papertalk <link or file>`:
 
 1. Run `node scripts/doctor.mjs` once per session. If something is marked ✗, say what to run and stop.
+   **First run: the voice.** If doctor says "Voice: not chosen yet", ask the person once, before anything else:
+   - **Free voice on this computer** (Kokoro): no key, no cost; about 90 MB downloads once. Male `am_michael` or female `af_heart`. If they want to hear them first: `node scripts/setup.mjs --sample am_michael,af_heart` and open the two WAVs in `out/`.
+   - **ElevenLabs**: more natural, needs their API key. They paste it into `.env` themselves (`ELEVENLABS_API_KEY=…`). Never ask for the key in chat and never write it anywhere yourself.
+   - **Their own voice files** from another TTS.
+
+   Save the answer with `node scripts/setup.mjs --voice local am_michael` (or `--voice eleven`, `--voice files`). It goes into `.env`, so later runs don't ask again. To change it later, run setup again.
 2. Do steps 1–4 below (source, format, facts, script) without asking anything.
 3. **Stop 1.** Show the person, in a few lines: the main idea in one sentence, the one picture you will draw, and the script. Ask for an OK or changes. Don't make the voice before the OK.
 4. Do steps 6–8 (voice, storyboard, check). Fix the check until it is clean.
@@ -43,7 +49,7 @@ If the person says "no stops" or "just make it", skip both stops.
 3. **Facts.** Write `facts.md`: each quote verbatim, with its section.
 4. **Script.** Write `script.txt` (format below). Short sentences, spoken American English, one idea per line. Check each line against facts.md.
 5. *(Stop 1.)*
-6. **Voice.** `node scripts/voice.mjs <slug>` uses ElevenLabs when `ELEVENLABS_API_KEY` is in `.env`, otherwise a free voice on this machine (`--local am_michael` or `af_heart`; the first run downloads ~90 MB). Other TTS: `--chunks` prints the text per take, then pass the WAV files.
+6. **Voice.** `node scripts/voice.mjs <slug>` uses the voice chosen at setup. With own files: `--chunks` prints the text per take; ask the person for the WAV files and pass them in order.
 7. **Storyboard.** Write `storyboard.json` (`docs/storyboard.md`): the one picture and every change cued to a word. For a sentence-shaped idea, use the row (the example sentence) and its elements. For a system, loop or argument, draw the final frame as one SVG and reveal it part by part (`docs/svg.md`).
 8. **Check.** `node scripts/make.mjs <slug> check` renders each moment small and reports overlapping or cut-off text. Fix and repeat until it says "no overlaps, nothing cut off". Then look at the contact sheets once, as a viewer: does each frame show what its caption says?
 9. *(Stop 2.)* **Render.** `node scripts/make.mjs <slug> render` writes `out/<slug>.mp4` in about 1–2 minutes.

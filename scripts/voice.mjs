@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // Narration for a papertalk video: takes → one voice track with word timings.
 //
-//   node scripts/voice.mjs <slug>                   ElevenLabs if ELEVENLABS_API_KEY is set, else the free local voice
+//   node scripts/voice.mjs <slug>                   the voice chosen at setup (PAPERTALK_VOICE in .env: local | eleven | files);
+//                                                   if none: ElevenLabs when a key is set, else the free local voice
 //   node scripts/voice.mjs <slug> --local [voice]   free voice on this machine (Kokoro, Apache-2.0); voices: af_heart,
 //                                                   am_michael, am_fenrir, bm_george… (scripts/tts-local.mjs)
 //   node scripts/voice.mjs <slug> --eleven          ElevenLabs (ELEVENLABS_API_KEY in .env), exact timings
@@ -46,10 +47,14 @@ for (const f of [path.join(ROOT, ".env")])
 let sr = 24000;
 let audio;
 let times;
-if (!rest.length) rest.push(process.env.ELEVENLABS_API_KEY || env.ELEVENLABS_API_KEY ? "--eleven" : "--local");
+if (!rest.length) {
+  const mode = process.env.PAPERTALK_VOICE || env.PAPERTALK_VOICE || (process.env.ELEVENLABS_API_KEY || env.ELEVENLABS_API_KEY ? "eleven" : "local");
+  if (mode === "files") throw new Error("voice is set to your own files: run with --chunks for the text, then pass the WAV files in order");
+  rest.push(mode === "eleven" ? "--eleven" : "--local");
+}
 if (rest[0] === "--local") {
   // one line at a time, joined with short silences; the aligner then times every word
-  const voice = rest[1] || process.env.PAPERTALK_LOCAL_VOICE || env.PAPERTALK_LOCAL_VOICE || "af_heart";
+  const voice = rest[1] || process.env.PAPERTALK_LOCAL_VOICE || env.PAPERTALK_LOCAL_VOICE || "am_michael";
   const t0 = Date.now();
   console.log(`local voice ${voice}: ${sc.lines.length} lines (the first run downloads the model, ~90 MB)…`);
   fs.mkdirSync(path.join(DIR, "vo"), { recursive: true });
@@ -65,8 +70,8 @@ if (rest[0] === "--local") {
 }
 if (rest[0] === "--eleven") {
   const key = process.env.ELEVENLABS_API_KEY || env.ELEVENLABS_API_KEY;
-  if (!key) throw new Error("ELEVENLABS_API_KEY is not set");
-  const voice = process.env.PAPERTALK_VOICE || env.PAPERTALK_VOICE || "1SM7GgM6IMuvQlz2BwM3";
+  if (!key) throw new Error("ELEVENLABS_API_KEY is not set: add it to .env, or run node scripts/setup.mjs --voice local for the free voice");
+  const voice = process.env.ELEVENLABS_VOICE_ID || env.ELEVENLABS_VOICE_ID || "1SM7GgM6IMuvQlz2BwM3";
   const model = process.env.PAPERTALK_MODEL || env.PAPERTALK_MODEL || "eleven_v3";
   const parts = [];
   times = [];

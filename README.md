@@ -28,7 +28,9 @@ Then in Claude Code:
 /papertalk https://arxiv.org/abs/1706.03762
 ```
 
-Claude reads the source and shows you the main idea, the picture it plans and the script. After your OK it makes the voice and the storyboard, checks every frame and shows you contact sheets. After your second OK it renders `out/<name>.mp4` and writes a post to go with it. It takes about 10–15 minutes. Say "no stops" to skip both questions.
+The first time, Claude asks which voice to use: the free one on your computer, ElevenLabs with your own key (you paste it into `.env`, never into the chat), or your own voice files. The answer is saved, so it asks only once.
+
+Then Claude reads the source and shows you the main idea, the picture it plans and the script. After your OK it makes the voice and the storyboard, checks every frame and shows you contact sheets. After your second OK it renders `out/<name>.mp4` and writes a post to go with it. It takes about 10–15 minutes. Say "no stops" to skip both questions.
 
 ## What makes the videos clear
 
@@ -62,7 +64,7 @@ node scripts/make.mjs <name> check              # overlap report + contact sheet
 node scripts/make.mjs <name> render             # out/<name>.mp4
 ```
 
-Voices: `--local am_michael`, `--local af_heart` and other [Kokoro](https://huggingface.co/hexgrad/Kokoro-82M) voices; `--eleven` for ElevenLabs; or your own WAV files from any TTS.
+Voice: `node scripts/setup.mjs --voice local am_michael` (or `af_heart` and other [Kokoro](https://huggingface.co/hexgrad/Kokoro-82M) voices), `--voice eleven` with `ELEVENLABS_API_KEY` in `.env`, or `--voice files` for WAVs from any TTS. `--sample am_michael,af_heart` writes samples to listen to.
 
 ## In other MCP clients
 

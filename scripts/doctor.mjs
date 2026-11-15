@@ -31,8 +31,11 @@ const env = {};
 const ef = path.join(ROOT, ".env");
 if (fs.existsSync(ef)) for (const m of fs.readFileSync(ef, "utf8").matchAll(/^([A-Z0-9_]+)=(.*)$/gm)) env[m[1]] = m[2].trim();
 const eleven = process.env.ELEVENLABS_API_KEY || env.ELEVENLABS_API_KEY;
-has("kokoro-js") ? ok("Free voice", "Kokoro runs on this machine; the model (~90 MB) downloads on first use") : no("Free voice", "npm install (kokoro-js is missing)");
-eleven ? ok("ElevenLabs", "key found: voices will use ElevenLabs") : meh("ElevenLabs", "optional: put ELEVENLABS_API_KEY in .env for a more natural voice");
+const mode = process.env.PAPERTALK_VOICE || env.PAPERTALK_VOICE;
+if (!mode) meh("Voice", "not chosen yet: ask the person (free local voice, ElevenLabs, or own files), then node scripts/setup.mjs --voice …");
+else if (mode === "local") has("kokoro-js") ? ok("Voice", `free, on this machine (Kokoro ${env.PAPERTALK_LOCAL_VOICE || "am_michael"}); the model (~90 MB) downloads on first use`) : no("Voice", "npm install (kokoro-js is missing)");
+else if (mode === "eleven") eleven ? ok("Voice", "ElevenLabs, key found") : no("Voice", "ElevenLabs chosen but no key: paste it into .env after ELEVENLABS_API_KEY=");
+else ok("Voice", "your own WAV files");
 
 const pdf = spawnSync("pdftotext", ["-v"], { encoding: "utf8" });
 pdf.error ? meh("PDF files", "optional: install poppler (brew install poppler) to ingest local PDFs") : ok("PDF files", "pdftotext found");

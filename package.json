@@ -12,7 +12,8 @@
     "sfx": "node scripts/sfx.mjs",
     "mcp": "node mcp/server.mjs",
     "studio": "remotion studio src/index.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "setup": "node scripts/setup.mjs"
   },
   "dependencies": {
     "@mozilla/readability": "0.6.0",
