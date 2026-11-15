@@ -65,7 +65,7 @@ console.log(
   mode === "local"
     ? `voice: free, on this machine (Kokoro, ${fromEnv("PAPERTALK_LOCAL_VOICE") || get("PAPERTALK_LOCAL_VOICE") || "am_michael"})`
     : mode === "eleven"
-      ? `voice: ElevenLabs${fromEnv("ELEVENLABS_API_KEY") || get("ELEVENLABS_API_KEY") ? "" : " (no key yet: /plugin → Installed → papertalk → Configure options, or ELEVENLABS_API_KEY in .env)"}${get("ELEVENLABS_VOICE_ID") ? `, voice ${get("ELEVENLABS_VOICE_ID")}` : ""}`
+      ? `voice: ElevenLabs${fromEnv("ELEVENLABS_API_KEY") || get("ELEVENLABS_API_KEY") ? "" : " (no key yet: /plugin configure papertalk@papertalk, or ELEVENLABS_API_KEY in .env)"}${get("ELEVENLABS_VOICE_ID") ? `, voice ${get("ELEVENLABS_VOICE_ID")}` : ""}`
       : mode === "files"
         ? "voice: your own WAV files (node scripts/voice.mjs <name> --chunks prints the text)"
         : "voice: not chosen yet",

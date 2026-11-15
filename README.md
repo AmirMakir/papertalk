@@ -19,7 +19,7 @@ In Claude Code (v2.1.275 or later), one command:
 /plugin install papertalk --marketplace AmirMakir/papertalk
 ```
 
-Choose **Install for you**. Claude Code then asks three things: which voice (free on your computer, ElevenLabs, or your own voice files), your ElevenLabs key if you picked it (kept in the system keychain, never in a file or the chat), and the folder for your videos (`~/papertalk` if you leave it empty). To change them later: `/plugin` → **Installed** → papertalk → **Configure options**.
+Choose **Install for you**. Claude Code then asks three things: which voice (free on your computer, ElevenLabs, or your own voice files), your ElevenLabs key if you picked it (kept in the system keychain, never in a file or the chat), and the folder for your videos (`~/papertalk` if you leave it empty). To change them later: `/plugin configure papertalk@papertalk`.
 
 Then, in any folder:
 

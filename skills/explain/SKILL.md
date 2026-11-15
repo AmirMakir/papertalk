@@ -30,7 +30,7 @@ When the person runs `/papertalk:explain <link or file>`:
 1. Run `init`. If something is marked ✗, say what to do and stop.
    **The voice.** If `init` says "Voice: not chosen yet", ask the person once, before anything else:
    - **Free voice on this computer**: no key, no cost; about 90 MB downloads once. Male `am_michael` or female `af_heart`. To hear them first: `pt sample am_michael,af_heart`, then open the two WAVs it prints.
-   - **ElevenLabs**: more natural, needs their API key. The safe place for it is the plugin's settings: `/plugin` → **Installed** → papertalk → **Configure options**, which keeps the key in the system keychain; then `/reload-plugins`. Never ask for the key in chat and never write it anywhere yourself.
+   - **ElevenLabs**: more natural, needs their API key. The safe place for it is the plugin's settings: `/plugin configure papertalk@papertalk`, which keeps the key in the system keychain; then `/reload-plugins`. Never ask for the key in chat and never write it anywhere yourself.
    - **Their own voice files** from another text-to-speech service.
 
    Save the answer with `pt setup --voice local am_michael` (or `--voice eleven`, `--voice files`), so later runs don't ask.
