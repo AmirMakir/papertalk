@@ -105,6 +105,7 @@ skills/explain/   the Claude Code skill: rules, steps, two stops
 mcp/server.mjs    the same steps as MCP tools
 docs/             storyboard and SVG reference, formats for papers, essays and posts
 examples/         finished scripts, storyboards and facts
+promo/            the launch video, also made in code
 videos/<name>/    your work in a clone (git-ignored); the plugin uses ~/papertalk
 ```
 

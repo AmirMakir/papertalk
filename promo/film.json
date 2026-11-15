@@ -1,0 +1,63 @@
+{
+ "link": "transformer-circuits.pub/2026/workspace",
+ "paper": {
+  "site": "transformer-circuits.pub/2026/workspace",
+  "title": "Verbalizable Representations Form a Global Workspace in Language Models",
+  "byline": "Gurnee, Sofroniew, … Lindsey · Anthropic, 2026"
+ },
+ "words": 49836,
+ "secs": 734,
+ "length": "2:35",
+ "blocks": [
+  {
+   "src": "clips/seg/workspace-run-38.0.mp4",
+   "from": 1.0
+  },
+  {
+   "src": "clips/seg/workspace-run-67.7.mp4",
+   "from": 1.0
+  },
+  {
+   "src": "clips/seg/workspace-run-101.5.mp4",
+   "from": 1.0
+  }
+ ],
+ "cards": [
+  {
+   "src": "",
+   "from": 0,
+   "kind": "Paper",
+   "title": "Verbalizable Representations Form a Global Workspace · Anthropic"
+  },
+  {
+   "src": "clips/seg/great-work-40.4.mp4",
+   "from": 1.0,
+   "kind": "Essay",
+   "title": "How to Do Great Work · Paul Graham"
+  },
+  {
+   "src": "clips/seg/crispr-38.6.mp4",
+   "from": 1.0,
+   "kind": "Topic",
+   "title": "CRISPR gene editing · Wikipedia"
+  },
+  {
+   "src": "clips/seg/always-on-101.2.mp4",
+   "from": 1.0,
+   "kind": "Blog post",
+   "title": "Building always-on agents · claude.com"
+  },
+  {
+   "src": "clips/seg/attention-68.6.mp4",
+   "from": 1.0,
+   "kind": "Classic paper",
+   "title": "Attention Is All You Need · 2017"
+  },
+  {
+   "src": "clips/seg/llm-biology-87.0.mp4",
+   "from": 1.0,
+   "kind": "Paper",
+   "title": "On the Biology of a Large Language Model · Anthropic"
+  }
+ ]
+}
