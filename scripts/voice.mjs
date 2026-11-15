@@ -16,12 +16,15 @@ import { align, readWav, writeWav } from "./align.mjs";
 import { parseScript } from "./script.mjs";
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
+// videos/, out/ and .env live in the working folder: the repo itself, or ~/papertalk for the plugin
+const HOME = process.env.PAPERTALK_HOME || ROOT;
+
 const [slug, ...rest] = process.argv.slice(2);
 if (!slug) {
   console.error("usage: voice.mjs <slug> <take…> | --eleven | --chunks");
   process.exit(1);
 }
-const DIR = path.join(ROOT, "videos", slug);
+const DIR = path.join(HOME, "videos", slug);
 const sc = parseScript(fs.readFileSync(path.join(DIR, "script.txt"), "utf8"));
 const MAX_CHARS = 2400;
 
@@ -41,7 +44,7 @@ if (rest[0] === "--chunks") {
 }
 
 const env = {};
-for (const f of [path.join(ROOT, ".env")])
+for (const f of [path.join(HOME, ".env")])
   if (fs.existsSync(f)) for (const m of fs.readFileSync(f, "utf8").matchAll(/^([A-Z0-9_]+)=(.*)$/gm)) env[m[1]] ??= m[2].trim().replace(/^["']|["']$/g, "");
 
 let sr = 24000;
@@ -65,7 +68,7 @@ if (rest[0] === "--local") {
   const { spawnSync } = await import("node:child_process");
   const r = spawnSync(process.execPath, [path.join(ROOT, "scripts/tts-local.mjs"), file, voice, linesFile], { stdio: ["ignore", "ignore", "pipe"], encoding: "utf8" });
   if (!fs.existsSync(file)) throw new Error(`local voice failed: ${(r.stderr ?? "").split("\n").filter((l) => /error/i.test(l)).slice(-3).join(" ") || "no output"}`);
-  console.log(`${path.relative(ROOT, file)} · ${Math.round((Date.now() - t0) / 1000)} s`);
+  console.log(`${path.relative(HOME, file)} · ${Math.round((Date.now() - t0) / 1000)} s`);
   rest.splice(0, rest.length, file);
 }
 if (rest[0] === "--eleven") {

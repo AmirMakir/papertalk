@@ -11,8 +11,11 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
+// videos/, out/ and .env live in the working folder: the repo itself, or ~/papertalk for the plugin
+const HOME = process.env.PAPERTALK_HOME || ROOT;
+
 const [slug, cmd = "check", arg] = process.argv.slice(2);
-const DIR = path.join(ROOT, "videos", slug);
+const DIR = path.join(HOME, "videos", slug);
 const tm = JSON.parse(fs.readFileSync(path.join(DIR, "timing.json"), "utf8"));
 const sb0 = JSON.parse(fs.readFileSync(path.join(DIR, "storyboard.json"), "utf8").replace(/^\s*\/\/.*$/gm, ""));
 // an svg element may point at a file next to the storyboard; inline it
@@ -172,20 +175,21 @@ if (!fs.existsSync(shared)) {
 const env = { ...process.env };
 const REM = path.join(ROOT, "node_modules/.bin/remotion");
 const run = (args) => spawnSync(REM, args, { cwd: ROOT, env, encoding: "utf8", maxBuffer: 256 * 1024 * 1024 });
+fs.mkdirSync(path.join(HOME, "out"), { recursive: true });
 const t0 = Date.now();
 
 if (cmd === "render") {
   fs.writeFileSync(path.join(DIR, "props.json"), JSON.stringify(props));
-  const out = path.join(ROOT, "out", `${slug}.mp4`);
+  const out = path.join(HOME, "out", `${slug}.mp4`);
   const r = run(["render", "src/index.ts", "PaperTalk", out, `--props=${path.join(DIR, "props.json")}`, `--public-dir=${DIR}`, "--log=error"]);
   if (r.status) {
     console.log((r.stdout + r.stderr).slice(-2000));
     process.exit(1);
   }
-  console.log(`out/${slug}.mp4 · ${Math.round((Date.now() - t0) / 1000)} s`);
+  console.log(`${out} · ${Math.round((Date.now() - t0) / 1000)} s`);
 } else if (cmd === "still") {
   fs.writeFileSync(path.join(DIR, "props.json"), JSON.stringify(props));
-  const out = path.join(ROOT, "out", `${slug}-${arg}.png`);
+  const out = path.join(HOME, "out", `${slug}-${arg}.png`);
   const r = run(["still", "src/index.ts", "PaperTalk", out, `--props=${path.join(DIR, "props.json")}`, `--public-dir=${DIR}`, `--frame=${Math.round(+arg * 30)}`, "--scale=0.5", "--log=error"]);
   console.log(r.status ? (r.stdout + r.stderr).slice(-1500) : out);
 } else {
@@ -209,7 +213,7 @@ if (cmd === "render") {
     else times.push(r2(v));
   }
   fs.writeFileSync(path.join(DIR, "props-check.json"), JSON.stringify({ ...props, check: times }));
-  const dir = path.join(ROOT, "out", `${slug}-check`);
+  const dir = path.join(HOME, "out", `${slug}-check`);
   fs.rmSync(dir, { recursive: true, force: true });
   const r = run(["render", "src/index.ts", "PaperTalk", dir, "--sequence", "--image-format=jpeg", "--scale=0.25", `--props=${path.join(DIR, "props-check.json")}`, `--public-dir=${DIR}`, "--log=verbose"]);
   const logs = (r.stdout + r.stderr).split("\n").filter((l) => l.includes("PRIMERCHECK "));
@@ -228,15 +232,15 @@ if (cmd === "render") {
   }
   // contact sheets, 16 frames to a sheet, drawn by Remotion itself (no other tools needed)
   const frames = fs.readdirSync(dir).filter((f) => /^element-\d+\.jpe?g$/.test(f)).sort();
-  for (const f of fs.readdirSync(path.join(ROOT, "out")).filter((f) => f.startsWith(`${slug}-check-`) && f.endsWith(".png"))) fs.rmSync(path.join(ROOT, "out", f));
+  for (const f of fs.readdirSync(path.join(HOME, "out")).filter((f) => f.startsWith(`${slug}-check-`) && f.endsWith(".png"))) fs.rmSync(path.join(HOME, "out", f));
   const sheets = [];
   for (let s = 0; s * 16 < frames.length; s++) {
     const pf = path.join(dir, `sheet-${s + 1}.json`);
     fs.writeFileSync(pf, JSON.stringify({ frames: frames.slice(s * 16, s * 16 + 16) }));
-    const png = path.join(ROOT, "out", `${slug}-check-${s + 1}.png`);
+    const png = path.join(HOME, "out", `${slug}-check-${s + 1}.png`);
     const r2 = run(["still", "src/index.ts", "Sheet", png, `--props=${pf}`, `--public-dir=${dir}`, "--log=error"]);
     if (r2.status) console.log(`! sheet ${s + 1}: ${(r2.stdout + r2.stderr).trim().slice(-300)}`);
-    else sheets.push(path.relative(ROOT, png));
+    else sheets.push(png);
   }
   console.log(`check: ${times.length} moments · ${logs.length} probed · ${Math.round((Date.now() - t0) / 1000)} s`);
   if (!logs.length) console.log("! no probe output: the logger did not pass browser logs");

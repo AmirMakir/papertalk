@@ -18,12 +18,15 @@ import { parseHTML } from "linkedom";
 import TurndownService from "turndown";
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
+// videos/, out/ and .env live in the working folder: the repo itself, or ~/papertalk for the plugin
+const HOME = process.env.PAPERTALK_HOME || ROOT;
+
 const [slug, src] = process.argv.slice(2);
 if (!slug || !src) {
   console.error("usage: ingest.mjs <slug> <url | file>");
   process.exit(1);
 }
-const DIR = path.join(ROOT, "videos", slug);
+const DIR = path.join(HOME, "videos", slug);
 fs.mkdirSync(DIR, { recursive: true });
 const UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130 Safari/537.36 papertalk/0.1";
 

@@ -11,26 +11,37 @@ Claude Code does the reading and the writing. papertalk does the rest: it fetche
 
 No API keys needed: the thinking runs on your Claude subscription and the voice is generated on your machine. With an ElevenLabs key, the voice sounds more natural.
 
-## Start
+## Install
 
-Needs Node 20+ and [Claude Code](https://claude.com/claude-code).
+In Claude Code (v2.1.275 or later), one command:
+
+```
+/plugin install papertalk --marketplace AmirMakir/papertalk
+```
+
+Choose **Install for you**. Claude Code then asks three things: which voice (free on your computer, ElevenLabs, or your own voice files), your ElevenLabs key if you picked it (kept in the system keychain, never in a file or the chat), and the folder for your videos (`~/papertalk` if you leave it empty). To change them later: `/plugin` → **Installed** → papertalk → **Configure options**.
+
+Then, in any folder:
+
+```
+/papertalk:explain https://arxiv.org/abs/1706.03762
+```
+
+The first run installs the engine once: Remotion and the free voice, about 1 GB, 1–3 minutes. It needs Node 20 or later.
+
+Claude reads the source and shows you the main idea, the picture it plans and the script. After your OK it makes the voice and the storyboard, checks every frame and shows you contact sheets. After your second OK it renders the video and writes a post to go with it. It takes about 10–15 minutes. Say "no stops" to skip both questions.
+
+To update: `/plugin` → **Installed** → papertalk → **Update now**, or turn on auto-update for the papertalk marketplace under `/plugin` → **Marketplaces**.
+
+### From a clone, to change the code
 
 ```bash
 git clone https://github.com/AmirMakir/papertalk && cd papertalk
 npm install
-node scripts/doctor.mjs        # checks everything, downloads Remotion's headless browser
-claude
+claude --plugin-dir .
 ```
 
-Then in Claude Code:
-
-```
-/papertalk https://arxiv.org/abs/1706.03762
-```
-
-The first time, Claude asks which voice to use: the free one on your computer, ElevenLabs with your own key (you paste it into `.env`, never into the chat), or your own voice files. The answer is saved, so it asks only once.
-
-Then Claude reads the source and shows you the main idea, the picture it plans and the script. After your OK it makes the voice and the storyboard, checks every frame and shows you contact sheets. After your second OK it renders `out/<name>.mp4` and writes a post to go with it. It takes about 10–15 minutes. Say "no stops" to skip both questions.
+The plugin then loads from your folder, and videos go into `videos/` and `out/` inside it. The first `/papertalk:explain` asks which voice to use.
 
 ## What makes the videos clear
 
@@ -40,7 +51,7 @@ Then Claude reads the source and shows you the main idea, the picture it plans a
 - **No formulas or bullet lists where something can be shown.** One caption line, because feeds autoplay muted.
 - **Facts only from the source**, each with its place in it, credited and linked on screen.
 
-The full rules are in [the skill](.claude/skills/papertalk/SKILL.md).
+The full rules are in [the skill](skills/explain/SKILL.md).
 
 ## Sources
 
@@ -54,17 +65,17 @@ The full rules are in [the skill](.claude/skills/papertalk/SKILL.md).
 
 Only the page text is fetched. Images stay as links.
 
-## By hand, without the skill
+## By hand, without Claude
 
 ```bash
-node scripts/ingest.mjs <name> <link or file>   # videos/<name>/source.md + outline
+node scripts/papertalk.mjs ingest <name> <link or file>   # videos/<name>/source.md + outline
 # write videos/<name>/script.txt and storyboard.json (see docs/)
-node scripts/voice.mjs <name>                   # ElevenLabs if the key is set, else the free local voice
-node scripts/make.mjs <name> check              # overlap report + contact sheets in out/
-node scripts/make.mjs <name> render             # out/<name>.mp4
+node scripts/papertalk.mjs voice <name>                   # the voice chosen at setup
+node scripts/papertalk.mjs check <name>                   # overlap report + contact sheets in out/
+node scripts/papertalk.mjs render <name>                  # out/<name>.mp4
 ```
 
-Voice: `node scripts/setup.mjs --voice local am_michael` (or `af_heart` and other [Kokoro](https://huggingface.co/hexgrad/Kokoro-82M) voices), `--voice eleven` with `ELEVENLABS_API_KEY` in `.env`, or `--voice files` for WAVs from any TTS. `--sample am_michael,af_heart` writes samples to listen to.
+Voice: `node scripts/papertalk.mjs setup --voice local am_michael` (or `af_heart` and other [Kokoro](https://huggingface.co/hexgrad/Kokoro-82M) voices), `--voice eleven` with `ELEVENLABS_API_KEY` in `.env`, or `--voice files` for WAVs from any TTS. `node scripts/papertalk.mjs sample am_michael,af_heart` writes samples to listen to.
 
 ## In other MCP clients
 
@@ -72,7 +83,7 @@ Voice: `node scripts/setup.mjs --voice local am_michael` (or `af_heart` and othe
 claude mcp add papertalk -- node /absolute/path/to/papertalk/mcp/server.mjs
 ```
 
-Cursor, Claude Desktop and other MCP clients get the same steps as tools: `papertalk_guide` (the rules), `papertalk_ingest`, `papertalk_write`, `papertalk_voice_text`, `papertalk_voice`, `papertalk_check`, `papertalk_render`.
+The plugin starts this server for you. Other MCP clients, such as Cursor or Claude Desktop, can run it from a clone and get the same steps as tools: `papertalk_guide` (the rules), `papertalk_setup`, `papertalk_ingest`, `papertalk_write`, `papertalk_voice_text`, `papertalk_voice`, `papertalk_check`, `papertalk_render`.
 
 ## How it fits together
 
@@ -88,11 +99,13 @@ source ──ingest──▶ source.md ──Claude──▶ facts.md, script.tx
 
 ```
 src/kit/          the picture: sentence row, arcs, tower and lens, bars, diagrams, svg, the frame checker
-scripts/          ingest, voice (+ word aligner, local TTS), make (check and render), doctor, sound effects
+scripts/          papertalk.mjs (one entry point), ingest, voice (+ word aligner, local TTS), make (check and render), doctor, sound effects
+skills/explain/   the Claude Code skill: rules, steps, two stops
+.claude-plugin/   plugin manifest (settings, MCP server) and the marketplace entry
 mcp/server.mjs    the same steps as MCP tools
 docs/             storyboard and SVG reference, formats for papers, essays and posts
 examples/         finished scripts, storyboards and facts
-videos/<name>/    your work (git-ignored)
+videos/<name>/    your work in a clone (git-ignored); the plugin uses ~/papertalk
 ```
 
 ## Licences

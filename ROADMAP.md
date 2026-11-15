@@ -36,7 +36,8 @@ What works now, and what is left before publishing.
 
 ## Pipeline
 
-- [ ] Claude Code plugin, so it installs with one command instead of a clone.
+- [x] Claude Code plugin: `/plugin install papertalk --marketplace AmirMakir/papertalk`; settings for voice, key (keychain) and folder; the engine installs once into the plugin's data folder.
+- [ ] Plugin icon (512 px PNG) and a submission to Anthropic's plugin directory.
 - [ ] Run the ElevenLabs path once with a real key.
 - [ ] Typecheck and a tiny render in CI.
 

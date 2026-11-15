@@ -1,0 +1,50 @@
+{
+  "name": "papertalk",
+  "displayName": "papertalk",
+  "description": "Paper, blog post or X post in → a 1–2.5 minute explainer video where the picture shows exactly what the voice says.",
+  "author": { "name": "AmirMakir", "url": "https://github.com/AmirMakir" },
+  "homepage": "https://github.com/AmirMakir/papertalk",
+  "repository": "https://github.com/AmirMakir/papertalk",
+  "license": "MIT",
+  "keywords": ["video", "explainer", "papers", "research", "remotion", "text-to-speech"],
+  "userConfig": {
+    "voice": {
+      "type": "string",
+      "title": "Voice",
+      "description": "free: made on this computer, no key, about 90 MB downloads once. elevenlabs: more natural, needs your ElevenLabs API key below. own-files: you bring WAV files from another text-to-speech service.",
+      "options": ["free", "elevenlabs", "own-files"],
+      "default": "free"
+    },
+    "local_voice": {
+      "type": "string",
+      "title": "Free voice",
+      "description": "Which free voice to use: am_michael (male) or af_heart (female); bm_george and bf_emma are British.",
+      "options": ["am_michael", "af_heart", "am_fenrir", "bm_george", "bf_emma"],
+      "default": "am_michael"
+    },
+    "elevenlabs_api_key": {
+      "type": "string",
+      "title": "ElevenLabs API key",
+      "description": "Only if you chose elevenlabs. Kept in your system keychain, never in a file or in the chat.",
+      "sensitive": true
+    },
+    "output_dir": {
+      "type": "directory",
+      "title": "Folder for your videos",
+      "description": "Where sources, scripts, voices and finished videos go. Leave empty for ~/papertalk."
+    }
+  },
+  "mcpServers": {
+    "papertalk": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/mcp/server.mjs"],
+      "env": {
+        "PAPERTALK_DATA": "${CLAUDE_PLUGIN_DATA}",
+        "PAPERTALK_HOME": "${user_config.output_dir}",
+        "PAPERTALK_VOICE": "${user_config.voice}",
+        "PAPERTALK_LOCAL_VOICE": "${user_config.local_voice}",
+        "ELEVENLABS_API_KEY": "${user_config.elevenlabs_api_key}"
+      }
+    }
+  }
+}

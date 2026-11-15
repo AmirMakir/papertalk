@@ -1,0 +1,13 @@
+{
+  "name": "papertalk",
+  "owner": { "name": "AmirMakir", "url": "https://github.com/AmirMakir" },
+  "description": "papertalk: explainer videos from papers, blog posts and X posts, made in Claude Code.",
+  "plugins": [
+    {
+      "name": "papertalk",
+      "source": "./",
+      "description": "Paper, blog post or X post in → a 1–2.5 minute explainer video where the picture shows exactly what the voice says.",
+      "category": "productivity"
+    }
+  ]
+}
