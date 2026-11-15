@@ -140,6 +140,8 @@ for (const el of sb.els) {
   if (el.warn) add("buzz", el.warn.in);
   if (el.crossIn != null) add("buzz", el.crossIn);
   if (el.t === "title" && el.hl) add("ding", el.hlIn ?? (el.ins ? el.ins[el.ins.length - 1] + 0.1 : null));
+  if (el.t === "clip") add("whoosh", el.in);
+  if (el.t === "terminal") for (const l of el.lines ?? []) add(l.kind === "ok" ? "ding" : "tick", l.in);
   if (el.t === "svg") {
     for (const s of el.steps ?? []) add(s.how === "draw" || !s.how ? "whoosh" : "pop", s.in);
     for (const f of el.flows ?? []) add("tick", f.in);

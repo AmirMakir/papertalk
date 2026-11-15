@@ -3,6 +3,7 @@ import { back, eio, eo, lerp, seg } from "../lib";
 import { F, HEADS, type Theme } from "../theme";
 import { parseTex, roleColor, Tex } from "./tex";
 import { Svg } from "./svg";
+import { Clip, Terminal } from "./media";
 
 // The building blocks of a papertalk video. A storyboard lists elements; every time in it is
 // already resolved to seconds (scripts/make.mjs turns "9:key" into a number).
@@ -13,7 +14,7 @@ export type El = { t: string; in: number; out?: number | null } & Record<string,
 export type WordBox = { text: string; x: number; w: number; cx: number };
 export type Row = { boxes: WordBox[]; size: number; top: number; bottom: number; arcY: number; dx: number[]; dy: number[] };
 export type Paper = { id: string; title: string; link: string; byline: string };
-export type Ctx = { t: number; th: Theme; row: Row | null; paper: Paper; dip?: number };
+export type Ctx = { t: number; th: Theme; row: Row | null; paper: Paper; dip?: number; check?: boolean };
 type C = React.FC<{ el: El; ctx: Ctx }>;
 
 export const vis = (t: number, a: number, b?: number | null, fi = 0.3, fo = 0.35) => seg(t, a, fi) * (b == null ? 1 : 1 - seg(t, b, fo));
@@ -884,7 +885,7 @@ const Missing: C = ({ el, ctx }) => (
 
 export const BACK: Record<string, C> = { mark: Mark, underline: Underline };
 export const SVG: Record<string, C> = { arcs: Arcs };
-const FRONT: Record<string, C> = { svg: Svg, tower: Tower, strike: Strike, tokens: Tokens, values: Values, label: Label, title: Title, chips: Chips, formula: Formula, stats: Stats, bars: Bars, table: Table, grid: Grid, stack: Stack, diagram: Diagram, cards: Cards, end: End, boxes: Boxes };
+const FRONT: Record<string, C> = { clip: Clip, terminal: Terminal, svg: Svg, tower: Tower, strike: Strike, tokens: Tokens, values: Values, label: Label, title: Title, chips: Chips, formula: Formula, stats: Stats, bars: Bars, table: Table, grid: Grid, stack: Stack, diagram: Diagram, cards: Cards, end: End, boxes: Boxes };
 export const ROW_ONLY = new Set(["tower", "mark", "underline", "strike", "arcs", "tokens", "values", "dim", "swap", "replace"]);
 export const MODIFIERS = new Set(["dim", "swap", "replace"]);
 

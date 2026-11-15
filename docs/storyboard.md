@@ -84,6 +84,8 @@ Placed by `area`: `title`, `top`, `mid`, `under`, `full`, plus `x` (`left`, `rig
 | `boxes` | a row of words in boxes | `items`, `ins`, `hl` |
 | `cards` | where each thing lives in the source, each card may hold a small copy of another element (`pic`) | `items: [{tag, note, in, pic}]` |
 | `end` | the link and byline | `link`, `byline`, `size` |
+| `clip` | a piece of a finished video in a framed window; `sound` plays its audio (leave a pause in the narration), `mask` hides its own captions | `src` (next to the storyboard), `from`, `x`, `y`, `w`, `crop`, `mask`, `sound`, `cut`, `label` |
+| `terminal` | a terminal window whose lines appear on cue; commands type themselves | `lines: [{in, text, kind}]` with kind `cmd`, `out`, `ok`, `dim`, `pen`, `warn`, `head`; `title`, `w`, `size`, `keep` |
 | `svg` | a hand-drawn picture from `src` (an .svg next to the storyboard), revealed part by part; see `docs/svg.md` | `src`, `steps`, `focus`, `flows`, `glow` |
 
 Every element takes `in` and `out`. Sounds are added automatically by element type (`"sfx": false` turns one off, `"sfx": "pop"` picks one).

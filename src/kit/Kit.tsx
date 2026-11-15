@@ -115,7 +115,7 @@ export const Kit: React.FC<KitProps> = ({ sb, caps = [], audio, sfx = [], theme 
     const shows: [number, number | null][] = rs.show ?? [[rs.in ?? 0, null]];
     rowO = Math.max(0, ...shows.map(([a, b]) => vis(t, a, b, 0.4, 0.4)));
   }
-  const ctx: Ctx = { t, th, row, paper: sb.paper, dip: altFade };
+  const ctx: Ctx = { t, th, row, paper: sb.paper, dip: altFade, check: !!check };
   const tag = [...(sb.tags ?? [])].reverse().find(([at]) => t >= at);
   const nocap = (sb.nocaps ?? []).some(([a, b]) => t >= a && (b == null || t < b));
   let cap: Cap | null = null;
